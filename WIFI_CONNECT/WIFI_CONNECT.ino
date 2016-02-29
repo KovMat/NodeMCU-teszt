@@ -15,9 +15,9 @@ void setup() {
   Serial.println("Setup is in progress!");
 
   pinMode(BUILTIN_LED, OUTPUT);
-  
+
   digitalWrite(BUILTIN_LED, ledState);
-  
+
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
@@ -59,12 +59,15 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
 
-  if (currentMillis - previousMillis >= interval) {
-    previousMillis = currentMillis;
-    if (ledState == LOW)
-      ledState = HIGH;  // Note that this switches the LED *off*
-    else
-      ledState = LOW;   // Note that this switches the LED *on*
-    digitalWrite(BUILTIN_LED, ledState);
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    if (currentMillis - previousMillis >= interval) {
+      previousMillis = currentMillis;
+      if (ledState == LOW)
+        ledState = HIGH;  // Note that this switches the LED *off*
+      else
+        ledState = LOW;   // Note that this switches the LED *on*
+      digitalWrite(BUILTIN_LED, ledState);
+    }
   }
 }
