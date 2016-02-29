@@ -40,7 +40,7 @@ void loop() {
       Serial.print(" (");
       Serial.print(WiFi.RSSI(i));
       Serial.print(")");
-      Serial.println((WiFi.encryptionType(i) == ENC_TYPE_NONE)?" ":"*");
+      Serial.println((WiFi.encryptionType(i) == ENC_TYPE_NONE)?" ":"-Encrypted");
       delay(10);
     }
   }
