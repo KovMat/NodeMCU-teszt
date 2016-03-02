@@ -5,6 +5,7 @@ const char* pass = "ABBADEAF01";
 const uint8_t reset_pin = 5;
 
 int ledState = LOW;
+const int ledPin = 14; // D5
 
 unsigned long previousMillis = 0;
 const long interval = 1000;
@@ -15,9 +16,11 @@ void setup() {
   Serial.println("Setup is in progress!");
 
   pinMode(BUILTIN_LED, OUTPUT);
+  pinMode(ledPin,OUTPUT);
 
   digitalWrite(BUILTIN_LED, ledState);
-
+  digitalWrite(ledPin,LOW);
+  
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
@@ -58,16 +61,22 @@ void setup() {
 
 void loop() {
   unsigned long currentMillis = millis();
-
+  
   if (WiFi.status() == WL_CONNECTED)
   {
-    if (currentMillis - previousMillis >= interval) {
+    digitalWrite(ledPin,LOW);  
+  if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
       if (ledState == LOW)
         ledState = HIGH;  // Note that this switches the LED *off*
       else
         ledState = LOW;   // Note that this switches the LED *on*
-      digitalWrite(BUILTIN_LED, ledState);
     }
   }
+  else
+  {
+    ledState = LOW;
+    digitalWrite(ledPin,HIGH);  
+  }
+  digitalWrite(BUILTIN_LED, ledState);
 }
